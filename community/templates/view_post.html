@@ -1,0 +1,102 @@
+<!-- 
+Manikishore Medam, mm5224@drexel.edu
+CS 530: DUI , Final Project -->
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+        {% with messages = get_flashed_messages(with_categories = true)%}
+          {% if messages%}
+            {% for category, message in messages %}
+            <div class = "alert alert-{{ category }}">
+              {{message}}   
+            </div>
+             {%endfor%}
+          {% endif%}
+         {% endwith%}       
+        <article class="media content-section">
+            <img class= "rounded-circle post-img" src="{{url_for('static',filename = 'Profile_pics/' +post.author.image_file)}}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-0" >{{ post.author.username }}</a>
+              <!-- <small class="text-muted">{{ post.author.bio }} -->
+              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}
+              </small>
+              {% if post.author == current_user%}
+                <a class="btn btn-secondary btn-sm pull-right" href="{{url_for('editpost', id = post.id)}}"> Edit </a>
+                <button type="button" class="btn btn-danger btn-sm m-2" data-toggle="modal" data-target="#DeleteModal"> Delete </button>
+              {% endif %} 
+            </div>
+            <div class="col-md-8">  
+              <h2 class="article-title">{{ post.title }}</a></h2>
+              <p>{{ post.content }}</p>
+              <small class="text-muted">
+                <p> {{ post.likes.count() }} likes</p>
+              </small>
+              {% if current_user.has_liked_post(post) %}
+              <a class="btn btn-secondary btn-sm " href="{{ url_for('like_action', post_id=post.id, action='unlike') }}">Unlike</a>
+              {% else %}
+              <a class="btn btn-secondary btn-sm " href="{{ url_for('like_action', post_id=post.id, action='like') }}">Like</a>
+            {% endif %}
+              <a class="btn btn-secondary btn-sm " href="{{url_for('new_comment', post_id = post.id)}}"> Comment </a>
+            </div>
+          </div>  
+        </article>
+        <h4>Comments</h4>
+        {% for comment in comments%}
+        <article class="media content-section">
+            <img class= "rounded-circle post-img" src="{{url_for('static',filename = 'Profile_pics/' +comment.author.image_file)}}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-0" >{{ comment.author.username }}</a>
+              <small class="text-muted mr-2">{{comment.author.bio}}</small>
+              <small class="text-muted">{{ comment.timestamp.strftime('%Y-%m-%d') }}
+              </small>
+            </div>
+            <p class="article-content">{{ comment.body }}</p>
+          </div>  
+        </article>
+        {% endfor %}
+        <!-- Modal -->
+        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel"> Are you sure? </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <form action= "{{url_for('deletepost', id = post.id)}}" method="POST">
+                <input  class= "btn btn-danger" type="submit" value ="Delete">
+              </form>
+            </div>
+          </div>
+        </div>
+        </div>
+  </div>        
+        <div class="col-md-4">
+          <div class="content-section">
+            <h2 class="mb-0">Weather Information</h2> 
+            <a class="weatherwidget-io" href="https://forecast7.com/en/39d95n75d17/philadelphia/" data-label_1="PHILADELPHIA" data-label_2="WEATHER" data-theme="hexellence" >PHILADELPHIA WEATHER</a>
+            <script>
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+            </script>
+          </div>
+        </div>
+ </div> 
+    
+{% endblock content %}
+
+
+        
+
+
+
+
+
+
+
+
