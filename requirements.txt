@@ -32,9 +32,6 @@ Click==7.0
 cloudpickle==1.2.2
 cmake==3.17.2
 colorama==0.4.1
-conda==4.10.0
-conda-build==3.21.4
-conda-verify==3.4.2
 contextlib2==0.6.0
 cryptography==2.7
 cycler==0.10.0
