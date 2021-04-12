@@ -2,9 +2,6 @@ absl-py==0.9.0
 alabaster==0.7.12
 algorithmia==1.2.1
 algorithmia-api-client==1.1.0
-anaconda-client==1.7.2
-anaconda-navigator==1.10.0
-anaconda-project==0.8.3
 appnope==0.1.0
 appscript==1.0.1
 asn1crypto==1.0.1
